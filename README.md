@@ -1,5 +1,5 @@
 # theyDontReallyCareAboutUS
-# GrievanceTrack
+# TheyMustCareAboutUS
 
 **The institutional nervous system for student complaints**
 
@@ -17,7 +17,7 @@ Complaints disappear. Delays leave no trace. Silence costs nothing. Institutions
 
 ## The Solution
 
-GrievanceTrack transforms ignored complaints into **timed obligations** that automatically escalate until someone with real authority is forced to act.
+TheyMustCareAboutUS transforms ignored complaints into **timed obligations** that automatically escalate until someone with real authority is forced to act.
 
 ### How It Works
 
@@ -103,71 +103,7 @@ Reputation becomes tied to response, not speeches.
 - **Hosting:** AWS/Azure with auto-scaling
 - **Analytics:** Custom dashboard + data export
 
-### Key Modules
-```
-├── Authentication & Authorization
-├── Complaint Submission Engine
-├── Categorization & Routing System
-├── Deadline & Escalation Manager
-├── Collective Signal Tracker
-├── Public Dashboard & Analytics
-├── Notification Service
-└── Admin Workflow Interface
-```
-
 ---
-
-## Installation & Setup
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/grievancetrack.git
-
-# Navigate to project directory
-cd grievancetrack
-
-# Install dependencies
-npm install
-
-# Set up environment variables
-cp .env.example .env
-
-# Run database migrations
-npm run migrate
-
-# Start development server
-npm run dev
-```
-
----
-
-## Roadmap
-
-### Phase 1: MVP (Months 1-3)
-- [ ] Basic complaint submission
-- [ ] Manual categorization
-- [ ] Simple deadline tracking
-- [ ] Admin dashboard
-
-### Phase 2: Core Features (Months 4-6)
-- [ ] Automatic escalation
-- [ ] Collective signal ("affects me too")
-- [ ] Public scoreboard
-- [ ] Email notifications
-
-### Phase 3: Advanced Features (Months 7-9)
-- [ ] AI-powered categorization
-- [ ] Trend analysis & predictions
-- [ ] Mobile app
-- [ ] Integration with existing college systems
-
-### Phase 4: Scale (Months 10-12)
-- [ ] Multi-institution support
-- [ ] Customizable workflows
-- [ ] Advanced analytics
-- [ ] API for third-party integrations
-
----
-
 ## Use Cases
 
 ### Scenario 1: Sexual Harassment Complaint
@@ -224,33 +160,10 @@ npm run dev
 
 ---
 
-## Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
-- Code of conduct
-- Development setup
-- Pull request process
-- Issue reporting guidelines
-
----
-
-## License
-
-[MIT License](LICENSE) - Feel free to use, modify, and distribute.
-
----
-
-## Contact
-
-- **Email:** contact@grievancetrack.org
-- **Twitter:** @GrievanceTrack
-- **Discussions:** [GitHub Discussions](https://github.com/yourusername/grievancetrack/discussions)
-
----
 
 ## One Sentence Summary
 
-**GrievanceTrack turns ignored complaints into timed obligations that climb the power ladder until someone with real authority is forced to act.**
+**TheyMustCareAboutUS turns ignored complaints into timed obligations that climb the power ladder until someone with real authority is forced to act.**
 
 It's not louder. It's inescapable.
 
@@ -258,44 +171,3 @@ It gives institutions nerves. And nerves are what make bodies react to pain.
 
 ---
 
-*Built with the belief that accountability should be a system feature, not a personal battle.*
-Turning ignored complaints into inescapable actions.
-TheyMustCareAboutUS is the nervous system your institution never had. It transforms student grievances from whispers into visible, timed reflexes that force real responses.
-
-🏥 The Problem: Institutions Without Nerves
-Picture a college as a living creature. It has ears—suggestion boxes, emails, Google Forms—but no nerves. Pain goes in. Nothing twitches. Nothing reacts. The body never feels it.
-Today, a student's grievance ("Something wrong happened to me inside this institution") can simply disappear into a bureaucratic black hole. Silence breeds frustration, cynicism, and worse—unaddressed harassment, delays, or discrimination that festers.
-TheyMustCareAboutUS changes that. It's not just a website. It's a reflex. Every complaint becomes an object that cannot be ignored: tracked, timed, and escalated automatically.
-
-💡 The Solution: A Reflex, Not a Request
-When a student submits a grievance, TheyMustCareAboutUS does three things immediately:
-
-Assigns a Permanent ID: Your voice gets a unique, unerasable tag.
-Enters a Public Queue: Visible to all—transparency without exposure.
-Starts a Clock: Deadlines that measure silence.
-
-From there, the system enforces accountability through escalation, amplification, and exposure.
-Key Features
-
-Sectors for Smart Prioritization
-Grievances are categorized by type, with built-in urgency levels:SectorUrgency LevelExamplesHarassment & SafetyHighAssault, threatsAcademic UnfairnessMediumGrading bias, plagiarism disputesHostel & InfrastructureLowBroken facilities, maintenanceAdministration DelaysMediumVisa issues, enrollment holdsDiscriminationHighBias based on identityGeneral IssuesLowMiscellaneous annoyancesQuiet pain (e.g., harassment) starts higher than loud annoyances (e.g., a broken fan).
-Social Amplification
-Peers can mark "This affects me too"—not likes or upvotes, but a collective signal. Isolated issues stay low; widespread problems climb in priority, surfacing systemic failures.
-Auto-Escalation: Time as a Weapon
-Every grievance has a response deadline. Miss it? It automatically escalates:
-Level 1: Department head
-Level 2: Dean/Vice-Chancellor
-Level 3: Highest authority (e.g., Provost)
-No reminders. No begging. Silence pushes it up the ladder.
-
-Public Scoreboard
-Anonymous metrics hold departments accountable:
-Pending complaints
-Resolution rates
-Average response times
-Failure trends
-Reputation ties to results, not rhetoric. No names—just performance.
-
-
-In One Sentence
-TheyMustCareAboutUS turns ignored complaints into timed obligations that climb the power ladder until someone with real authority is forced to act. It's not louder. It's inescapable.
