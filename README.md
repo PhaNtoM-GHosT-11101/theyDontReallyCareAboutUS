@@ -1,4 +1,3 @@
-# theyDontReallyCareAboutUS
 # TheyMustCareAboutUS
 
 **The institutional nervous system for student complaints**
