@@ -2,8 +2,7 @@
 
 **The institutional nervous system for student complaints**
 
-Introduction = https://phantom-ghost-11101.github.io/theyDontReallyCareAboutUS/
-Demo = 
+Prototype = https://phantom-ghost-11101.github.io/theyDontReallyCareAboutUS/
 
 ---
 
