@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - TheyMustCareAboutUS</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --surface: #1e1e2e;
+            --light: #f1f5f9;
+            --gray: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(30, 30, 46, 0.8);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .logout {
+            color: var(--danger);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-text h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-text p {
+            color: var(--gray);
+        }
+
+        .new-complaint-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .new-complaint-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Complaint Cards */
+        .complaints-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .complaint-item {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .complaint-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .c-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .c-id {
+            font-family: 'Courier New', monospace;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .c-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .status-escalated {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .status-resolved {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .c-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .c-desc {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .c-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .c-timer {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+
+        .timer-critical {
+            color: var(--danger);
+        }
+
+        .timer-normal {
+            color: var(--success);
+        }
+
+        .support-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .support-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .support-btn.supported {
+            background: var(--primary);
+            color: white;
+            opacity: 0.7;
+        }
+
+        /* Pyramid Hierarchy */
+        .hierarchy-section {
+            margin-bottom: 3rem;
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .pyramid-grid {
+            display: flex;
+            gap: 2rem;
+            padding: 1rem;
+            min-width: max-content;
+            /* Ensure horizontal scroll if needed */
+            justify-content: center;
+        }
+
+        .pyramid-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pyramid-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .p-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .p-level {
+            padding: 0.6rem;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: default;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .p-level:hover {
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        /* 5 Levels Colors & Widths */
+        .lvl-5 {
+            width: 100px;
+            background: #ef4444;
+        }
+
+        /* Red - Chairman */
+        .lvl-4 {
+            width: 130px;
+            background: #f97316;
+        }
+
+        /* Orange */
+        .lvl-3 {
+            width: 160px;
+            background: #eab308;
+            color: black;
+        }
+
+        /* Yellow */
+        .lvl-2 {
+            width: 190px;
+            background: #84cc16;
+            color: black;
+        }
+
+        /* Lime */
+        .lvl-1 {
+            width: 220px;
+            background: #10b981;
+        }
+
+        /* Green - Base */
+
+        @media (max-width: 768px) {
+            .pyramid-grid {
+                flex-direction: column;
+                min-width: 0;
+            }
+
+            .p-level {
+                width: 100%;
+            }
+        }
+
+        /* The original media query for p-top, p-mid, p-base is now obsolete as these classes are removed */
+        /* Keeping the structure for other potential elements that might use it */
+        @media (max-width: 768px) {
+            /* .p-top,
+            .p-mid,
+            .p-base {
+                width: 100%;
+                clip-path: none;
+                border-radius: 8px;
+                margin-bottom: 0.5rem;
+            } */
+        }
+
+        /* Tabs */
+        .dashboard-tabs {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .d-tab {
+            cursor: pointer;
+            color: var(--gray);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s;
+        }
+
+        .d-tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">TheyMustCareAboutUS</a>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">Dashboard</a>
+            <a href="#" class="nav-link">My Profile</a>
+            <a href="index.html" class="nav-link logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-section">
+            <div class="welcome-text">
+                <h2 id="welcomeMsg">Welcome, Student</h2>
+                <p>ID: <span id="userIdDisplay" style="font-family: monospace; color: var(--primary);">Loading...</span>
+                </p>
+            </div>
+            <a href="complaint_form.html" class="new-complaint-btn">+ New Complaint</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--primary)">3</div>
+                <div class="stat-label">My Active Complaints</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--danger)">1</div>
+                <div class="stat-label">Escalated</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--success)">5</div>
+                <div class="stat-label">Resolved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--warning)">120</div>
+                <div class="stat-label">Karma Points</div>
+            </div>
+        </div>
+
+        <div class="hierarchy-section">
+            <h3 class="section-title">🏛️ Know Your Authorities (Category-wise Escalation)</h3>
+            <p style="color: var(--gray); margin-bottom: 1rem;">Identify your escalation path based on the issue type.
+            </p>
+
+            <div class="pyramid-grid">
+                <!-- 1. Academic -->
+                <div class="pyramid-card">
+                    <div class="pyramid-title">📚 Academic</div>
+                    <div class="p-stack">
+                        <div class="p-level lvl-5">Chairman</div>
+                        <div class="p-level lvl-4">Principal</div>
+                        <div class="p-level lvl-3">Dean Academics</div>
+                        <div class="p-level lvl-2">Head of Dept</div>
+                        <div class="p-level lvl-1">Class Rep / Mentor</div>
+                    </div>
+                </div>
+
+                <!-- 2. Facility -->
+                <div class="pyramid-card">
+                    <div class="pyramid-title">🏢 Facility</div>
+                    <div class="p-stack">
+                        <div class="p-level lvl-5">Chairman</div>
+                        <div class="p-level lvl-4">Director</div>
+                        <div class="p-level lvl-3">Estate Manager</div>
+                        <div class="p-level lvl-2">Hostel Warden</div>
+                        <div class="p-level lvl-1">Caretaker / Staff</div>
+                    </div>
+                </div>
+
+                <!-- 3. Ragging -->
+                <div class="pyramid-card">
+                    <div class="pyramid-title">🚫 Anti-Ragging</div>
+                    <div class="p-stack">
+                        <div class="p-level lvl-5">Chairman</div>
+                        <div class="p-level lvl-4">Anti-Ragging Squad</div>
+                        <div class="p-level lvl-3">Dean Students</div>
+                        <div class="p-level lvl-2">Hostel Warden</div>
+                        <div class="p-level lvl-1">Senior Mentor</div>
+                    </div>
+                </div>
+
+                <!-- 4. Harassment -->
+                <div class="pyramid-card">
+                    <div class="pyramid-title">⚖️ Harassment</div>
+                    <div class="p-stack">
+                        <div class="p-level lvl-5">Chairman</div>
+                        <div class="p-level lvl-4">ICC Presiding Officer</div>
+                        <div class="p-level lvl-3">Dean Welfare</div>
+                        <div class="p-level lvl-2">Faculty Advisor</div>
+                        <div class="p-level lvl-1">Student Counselor</div>
+                    </div>
+                </div>
+
+                <!-- 5. Safety -->
+                <div class="pyramid-card">
+                    <div class="pyramid-title">🛡️ Safety</div>
+                    <div class="p-stack">
+                        <div class="p-level lvl-5">Chairman</div>
+                        <div class="p-level lvl-4">Chief Security Officer</div>
+                        <div class="p-level lvl-3">Zone Supervisor</div>
+                        <div class="p-level lvl-2">Shift In-Charge</div>
+                        <div class="p-level lvl-1">Security Guard</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-tabs">
+            <div class="d-tab active" onclick="showSection('my-complaints', this)">My Complaints</div>
+            <div class="d-tab" onclick="showSection('public-complaints', this)">Public Board</div>
+        </div>
+
+        <div id="my-complaints" class="complaints-section">
+            <div class="complaints-list">
+                <!-- Data injected by JS -->
+            </div>
+        </div>
+
+        <div id="public-complaints" class="complaints-section" style="display: none;">
+            <div class="complaints-list">
+                <!-- Data injected by JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Static Demo Data
+        const staticMyComplaints = [
+            {
+                id: '#GRV-2024-8892',
+                status: 'Escalated to Dept Head',
+                statusClass: 'status-escalated',
+                title: 'Wi-Fi Unavailable in Library',
+                desc: 'The 3rd floor library Wi-Fi has been down for 5 days. It is exam week and many of us rely on this connection.',
+                timerText: 'OVERDUE',
+                timerClass: 'timer-critical',
+                meta: 'Filed 6 days ago'
+            },
+            {
+                id: '#GRV-2024-9001',
+                status: 'Pending Review',
+                statusClass: 'status-pending',
+                title: 'Cafeteria Hygiene Issue',
+                desc: 'Found foreign object in food served today at Main Cafeteria. Images attached in detailed report.',
+                timerText: '23:45:12',
+                timerClass: 'timer-normal',
+                meta: 'Filed 2 hours ago'
+            }
+        ];
+
+        const staticPublicComplaints = [
+            {
+                id: '#GRV-2024-7762',
+                status: 'Open Issue',
+                statusClass: 'status-pending',
+                title: 'Hostel Block C Water Crisis',
+                desc: 'No water supply in Block C since yesterday morning. Over 200 students affected. Wardens not responding.',
+                timerText: '🔥 High Pressure',
+                timerClass: 'timer-critical',
+                supportCount: 45
+            },
+            {
+                id: '#GRV-2024-7788',
+                status: 'Escalated to Dean',
+                statusClass: 'status-escalated',
+                title: 'Unfair Grading in CS101',
+                desc: 'Entire batch received significantly lower grades than performance indicated. Evaluation seems arbitrary.',
+                timerText: 'Since: 2 weeks ago',
+                timerClass: 'timer-critical',
+                supportCount: 128
+            }
+        ];
+
+        // Load & Render My Complaints
+        function renderMyComplaints() {
+            const container = document.querySelector('#my-complaints .complaints-list');
+            const localComplaints = JSON.parse(localStorage.getItem('myComplaints') || '[]');
+
+            // Clear current list
+            container.innerHTML = '';
+
+            // Combine local + static
+            // Local items first (newest)
+            const allComplaints = [...localComplaints, ...staticMyComplaints];
+
+            if (allComplaints.length === 0) {
+                container.innerHTML = '<p style="color: var(--gray); text-align: center; padding: 2rem;">No complaints found.</p>';
+                return;
+            }
+
+            allComplaints.forEach(c => {
+                // Normalize data structure
+                const status = c.status || 'Pending Review';
+                let statusClass = c.statusClass;
+                if (!statusClass) {
+                    if (status.includes('Escalated')) statusClass = 'status-escalated';
+                    else if (status.includes('Resolved')) statusClass = 'status-resolved';
+                    else statusClass = 'status-pending';
+                }
+
+                const html = `
+                <div class="complaint-item">
+                    <div class="c-header">
+                        <span class="c-id">${c.id}</span>
+                        <span class="c-status ${statusClass}">${status}</span>
+                    </div>
+                    <h3 class="c-title">${c.title || c.subject}</h3>
+                    <p class="c-desc">${c.desc || c.description}</p>
+                    <div class="c-footer">
+                        <div class="c-timer ${c.timerClass || 'timer-normal'}">
+                            <span>${c.timerText ? '⏱️ Escalation in:' : '⏱️ Auto-escalates in:'}</span>
+                            <span>${c.timerText || '48:00:00'}</span>
+                        </div>
+                        <span style="color: var(--gray); font-size: 0.9rem;">${c.meta || 'Filed just now'}</span>
+                    </div>
+                </div>`;
+                container.innerHTML += html;
+            });
+
+            // Update Stats
+            if (document.querySelector('.stat-card:first-child .stat-value')) {
+                document.querySelector('.stat-card:first-child .stat-value').textContent = allComplaints.length;
+            }
+        }
+
+        // Load & Render Public Complaints
+        function renderPublicComplaints() {
+            const container = document.querySelector('#public-complaints .complaints-list');
+            const localPublic = JSON.parse(localStorage.getItem('publicComplaints') || '[]');
+
+            container.innerHTML = '';
+            const allPublic = [...localPublic, ...staticPublicComplaints];
+
+            allPublic.forEach(c => {
+                const status = c.status || 'Open Issue';
+                let statusClass = c.statusClass || 'status-pending';
+                const supportCount = c.supportCount || 0;
+
+                const html = `
+                <div class="complaint-item">
+                    <div class="c-header">
+                        <span class="c-id">${c.id}</span>
+                        <span class="c-status ${statusClass}">${status}</span>
+                    </div>
+                    <h3 class="c-title">${c.title || c.subject}</h3>
+                    <p class="c-desc">${c.desc || c.description}</p>
+                    <div class="c-footer">
+                        <div class="c-timer timer-critical">
+                            <span>${c.timerText || '🔥 Fresh Issue'}</span>
+                        </div>
+                        <button class="support-btn" onclick="toggleSupport(this)">
+                            👥 <span class="count">${supportCount}</span> Affected
+                        </button>
+                    </div>
+                </div>`;
+                container.innerHTML += html;
+            });
+        }
+
+        function showSection(id, tab) {
+            document.getElementById('my-complaints').style.display = 'none';
+            document.getElementById('public-complaints').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+
+            document.querySelectorAll('.d-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        }
+
+        function toggleSupport(btn) {
+            const countSpan = btn.querySelector('.count');
+            let count = parseInt(countSpan.textContent);
+
+            if (btn.classList.contains('supported')) {
+                btn.classList.remove('supported');
+                count--;
+            } else {
+                btn.classList.add('supported');
+                count++;
+            }
+            countSpan.textContent = count;
+        }
+
+        // Initial Render
+        window.addEventListener('load', () => {
+            // Load User Identity
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (currentUser) {
+                document.getElementById('welcomeMsg').textContent = `Welcome back`;
+                document.getElementById('userIdDisplay').textContent = currentUser.id;
+            } else {
+                // Redirect if not logged in (optional, but good for demo)
+                // window.location.href = 'login.html'; 
+                document.getElementById('userIdDisplay').textContent = 'Guest Mode';
+            }
+
+            renderMyComplaints();
+            renderPublicComplaints();
+        });
+    </script>
+</body>
+
+</html>

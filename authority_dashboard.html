@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authority Dashboard - TheyMustCareAboutUS</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --surface: #1e1e2e;
+            --light: #f1f5f9;
+            --gray: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--surface);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-items {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            color: var(--gray);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            margin-left: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            padding: 2rem 3rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .role-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            margin-bottom: 0.3rem;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .kpi-card {
+            background: rgba(30, 30, 46, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .kpi-value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-label {
+            color: var(--gray);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* Action Table */
+        .table-container {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        td {
+            color: var(--light);
+        }
+
+        .priority-high {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .priority-med {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .spam-btn {
+            background: var(--gray);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.3s;
+            margin-left: 0.5rem;
+        }
+
+        .spam-btn:hover {
+            opacity: 0.9;
+            background: #64748b;
+        }
+
+        .escalation-risk {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--danger);
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <span>🛡️</span> AdminPortal
+        </div>
+        <ul class="nav-items">
+            <li class="nav-item">
+                <a href="#" class="nav-link active"
+                    onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">
+                    <span>Overview</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#section-pending" class="nav-link">
+                    <span>Pending Action</span>
+                    <span class="badge" id="badge-pending">0</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#section-escalated" class="nav-link">
+                    <span>Escalated Cases</span>
+                    <span class="badge" id="badge-escalated">0</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#section-history" class="nav-link">
+                    <span>Resolved</span>
+                    <span class="badge" id="badge-resolved" style="background: var(--success); color: white;">0</span>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top: auto;">
+                <a href="index.html" class="nav-link">Logout</a>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <div>
+                <h1>Dashboard Overview</h1>
+                <p style="color: var(--gray)">Manage student grievances and deadlines</p>
+            </div>
+            <div class="user-info">
+                <button onclick="resetDemoData()"
+                    style="background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 0.4rem 1rem; border-radius: 20px; cursor: pointer; margin-right: 1rem; font-size: 0.8rem;">↻
+                    Reset Demo Data</button>
+                <span class="role-badge">Department Head</span>
+                <p><strong>Dr. Sarah Connor</strong></p>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card"
+                onclick="document.getElementById('section-escalated').scrollIntoView({behavior: 'smooth'})"
+                style="cursor: pointer;">
+                <div class="kpi-value" style="color: var(--danger)" id="kpi-escalated">0</div>
+                <div class="kpi-label">At Risk (< 12h)</div>
+                </div>
+                <div class="kpi-card"
+                    onclick="document.getElementById('section-pending').scrollIntoView({behavior: 'smooth'})"
+                    style="cursor: pointer;">
+                    <div class="kpi-value" style="color: var(--warning)" id="kpi-pending">0</div>
+                    <div class="kpi-label">Total Pending</div>
+                </div>
+                <div class="kpi-card"
+                    onclick="document.getElementById('section-history').scrollIntoView({behavior: 'smooth'})"
+                    style="cursor: pointer;">
+                    <div class="kpi-value" style="color: var(--success)" id="kpi-resolved">0</div>
+                    <div class="kpi-label">Resolved Cases</div>
+                </div>
+            </div>
+
+            <div id="section-escalated" class="table-container"
+                style="margin-bottom: 2rem; border: 1px solid var(--danger);">
+                <div class="table-header" style="background: rgba(239, 68, 68, 0.1);">
+                    <h3 style="color: var(--danger);">💥 Escalated Cases (Immediate Action Required)</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Complaint ID</th>
+                            <th>Category</th>
+                            <th>Subject</th>
+                            <th>Deadline</th>
+                            <th>Votes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="escalatedTableBody">
+                        <!-- Rows injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="section-pending" class="table-container">
+                <div class="table-header">
+                    <h3>📝 Pending Reviews</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Complaint ID</th>
+                            <th>Category</th>
+                            <th>Subject</th>
+                            <th>Deadline</th>
+                            <th>Votes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingTableBody">
+                        <!-- Rows injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="section-history" class="table-container" style="opacity: 0.8; margin-top: 3rem;">
+                <div class="table-header" style="background: var(--gray);">
+                    <h3 style="color: white;">📜 History (Resolved & Spam)</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Complaint ID</th>
+                            <th>Category</th>
+                            <th>Subject</th>
+                            <th>Deadline</th>
+                            <th>Votes</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- Rows injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+    </main>
+
+    <script>
+        // Static fallback data if localstorage is empty
+        const staticComplaints = [
+            { id: '#GRV-2024-8892', category: 'Infrastructure', subject: 'Wi-Fi Unavailable in Library', deadline: '04:32:10', riskColor: 'var(--danger)', icon: '⚠️', status: 'Escalated', votes: 142 },
+            { id: '#GRV-2024-9102', category: 'Safety', subject: 'Main Gate Security Lapse', deadline: '02:15:00', riskColor: 'var(--danger)', icon: '⚠️', status: 'Escalated', votes: 89 },
+            { id: '#GRV-2024-9109', category: 'Safety', subject: 'Harassment Incident near Gym', deadline: '00:45:00', riskColor: 'var(--danger)', icon: '⚠️', status: 'Escalated', votes: 215 },
+            { id: '#GRV-2024-9105', category: 'Infrastructure', subject: 'Water Cooler Contamination', deadline: '01:30:00', riskColor: 'var(--danger)', icon: '⚠️', status: 'Escalated', votes: 76 },
+            { id: '#GRV-2024-9110', category: 'Health & Hygiene', subject: 'Washroom Cleaning Pending', deadline: '05:00:00', riskColor: 'var(--danger)', icon: '⚠️', status: 'Escalated', votes: 45 },
+
+            { id: '#GRV-2024-9001', category: 'Health & Hygiene', subject: 'Cafeteria Hygiene Issue', deadline: '23:45:12', riskColor: 'var(--warning)', icon: '', status: 'Pending Action', votes: 112 },
+            { id: '#GRV-2024-8765', category: 'Academic', subject: 'Exam Schedule Conflict', deadline: '45:10:00', riskColor: 'var(--success)', icon: '', status: 'Pending Action', votes: 98 },
+            { id: '#GRV-2024-9103', category: 'Facility', subject: 'Elevator Malfunction - Block B', deadline: '12:00:00', riskColor: 'var(--warning)', icon: '⚠️', status: 'Pending Action', votes: 67 },
+            { id: '#GRV-2024-9104', category: 'Faculty', subject: 'Professor Absent for 2 Weeks', deadline: '72:00:00', riskColor: 'var(--success)', icon: '', status: 'Pending Action', votes: 156 },
+            { id: '#GRV-2024-9106', category: 'Academic', subject: 'Grade Discrepancy in Physics', deadline: '48:00:00', riskColor: 'var(--success)', icon: '', status: 'Pending Action', votes: 34 },
+            { id: '#GRV-2024-9107', category: 'Other', subject: 'Stray Dogs in Campus', deadline: '24:00:00', riskColor: 'var(--warning)', icon: '', status: 'Pending Action', votes: 88 },
+            { id: '#GRV-2024-9108', category: 'Facility', subject: 'Broken projector in Lab 3', deadline: '96:00:00', riskColor: 'var(--success)', icon: '', status: 'Pending Action', votes: 21 },
+            { id: '#GRV-2024-9111', category: 'Academic', subject: 'Timetable Clash CS/Math', deadline: '36:00:00', riskColor: 'var(--warning)', icon: '', status: 'Pending Action', votes: 55 },
+            { id: '#GRV-2024-9112', category: 'Facility', subject: 'AC Failure in Seminar Hall', deadline: '10:00:00', riskColor: 'var(--warning)', icon: '', status: 'Pending Action', votes: 43 },
+            { id: '#GRV-2024-9113', category: 'Faculty', subject: 'Feedback Portal Not Working', deadline: '120:00:00', riskColor: 'var(--success)', icon: '', status: 'Pending Action', votes: 12 }
+        ];
+
+        function loadComplaints() {
+            const escalatedContainer = document.getElementById('escalatedTableBody');
+            const pendingContainer = document.getElementById('pendingTableBody');
+            const historyContainer = document.getElementById('historyTableBody');
+
+            escalatedContainer.innerHTML = '';
+            pendingContainer.innerHTML = '';
+            historyContainer.innerHTML = '';
+
+            // Get system complaints or init with static
+            let complaints = JSON.parse(localStorage.getItem('sys_complaints') || 'null');
+
+            if (!complaints) {
+                // Seed with static data if empty
+                complaints = staticComplaints;
+                localStorage.setItem('sys_complaints', JSON.stringify(complaints));
+            }
+
+            // SORT: Descending by Votes
+            complaints.sort((a, b) => (b.votes || 0) - (a.votes || 0));
+
+            complaints.forEach((c, index) => {
+                const tr = document.createElement('tr');
+                tr.dataset.index = index;
+
+                const riskColor = c.riskColor || 'var(--danger)';
+                const deadline = c.deadline || '48:00:00';
+                const icon = c.icon || '⚠️';
+                const votes = c.votes || 0;
+
+                // Check if Resolved or Spam -> History
+                if (c.status === 'Resolved' || c.status === 'Spam') {
+                    tr.style.opacity = '0.6';
+                    const statusColor = c.status === 'Resolved' ? 'var(--success)' : '#475569';
+
+                    tr.innerHTML = `
+                        <td>${c.id}</td>
+                        <td>${c.category}</td>
+                        <td>${c.subject || c.title}</td>
+                        <td>
+                            <div class="escalation-risk" style="color: ${riskColor}">
+                                <span>${icon} ${deadline}</span>
+                            </div>
+                        </td>
+                        <td>👥 ${votes}</td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <span style="font-weight: bold; color: ${statusColor}; border: 1px solid ${statusColor}; padding: 0.2rem 0.6rem; border-radius: 4px;">
+                                    ${c.status}
+                                </span>
+                            </div>
+                        </td>
+                    `;
+                    historyContainer.appendChild(tr);
+                    return; // Skip adding to active tables
+                }
+
+                // Active Rows (Escalated or Pending)
+                tr.innerHTML = `
+                    <td>${c.id}</td>
+                    <td>${c.category}</td>
+                    <td>${c.subject || c.title}</td>
+                    <td>
+                        <div class="escalation-risk" style="color: ${riskColor}">
+                            <span>${icon} ${deadline}</span>
+                        </div>
+                    </td>
+                    <td>👥 ${votes}</td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="action-btn" onclick="updateStatus(${index}, 'Resolved', this)" 
+                                style="background: var(--success)">
+                                Resolve
+                            </button>
+                            <button class="spam-btn" onclick="updateStatus(${index}, 'Spam', this)"
+                                 style="background: #475569">
+                                 Spam
+                            </button>
+                        </div>
+                    </td>
+                `;
+
+                // Sort Logic: Escalated OR < 12h deadline goes to Escalated Table
+                // Parsing deadline simply for heuristic (assuming format HH:MM:SS)
+                const isUrgent = (c.status && c.status.includes('Escalated')) || (parseInt(deadline) < 12);
+
+                if (isUrgent) {
+                    escalatedContainer.appendChild(tr);
+                } else {
+                    pendingContainer.appendChild(tr);
+                }
+            });
+
+            // Update KPI & Sidebars (Live Counts)
+            const resolvedCount = complaints.filter(c => c.status === 'Resolved').length;
+            const escalatedCount = complaints.filter(c => !['Resolved', 'Spam'].includes(c.status) && ((c.status && c.status.includes('Escalated')) || (parseInt(c.deadline || '48') < 12))).length;
+            const pendingCount = complaints.filter(c => !['Resolved', 'Spam'].includes(c.status) && !((c.status && c.status.includes('Escalated')) || (parseInt(c.deadline || '48') < 12))).length;
+
+            // Update Sidebar Badges
+            document.getElementById('badge-escalated').textContent = escalatedCount;
+            document.getElementById('badge-pending').textContent = pendingCount;
+            document.getElementById('badge-resolved').textContent = resolvedCount;
+
+            // Update KPI Cards
+            document.getElementById('kpi-escalated').textContent = escalatedCount;
+            document.getElementById('kpi-pending').textContent = pendingCount;
+            document.getElementById('kpi-resolved').textContent = resolvedCount;
+        }
+
+        function updateStatus(index, newStatus, btn) {
+            const actionName = newStatus === 'Resolved' ? 'resolve' : 'mark as spam';
+            if (confirm(`Are you sure you want to ${actionName} this complaint?`)) {
+                let complaints = JSON.parse(localStorage.getItem('sys_complaints'));
+                complaints[index].status = newStatus;
+                localStorage.setItem('sys_complaints', JSON.stringify(complaints));
+
+                // Re-render to reflect changes safely
+                loadComplaints();
+            }
+        }
+
+        function resetDemoData() {
+            if (confirm('This will wipe all current dashboard data and reload the large demo dataset. Continue?')) {
+                localStorage.removeItem('sys_complaints');
+                location.reload();
+            }
+        }
+
+        // Load on start
+        window.addEventListener('load', loadComplaints);
+    </script>
+
+</body>
+
+</html>

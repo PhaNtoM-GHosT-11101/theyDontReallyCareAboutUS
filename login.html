@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TheyMustCareAboutUS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #6366f1;
+            /* Indigo */
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --secondary: #8b5cf6;
+            /* Violet */
+            --dark: #0f172a;
+            --darker: #020617;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 3.5rem 3rem;
+            width: 100%;
+            max-width: 440px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.1);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px var(--primary-glow));
+        }
+
+        .logo h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 0.4rem;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 0.2rem;
+        }
+
+        .form-input,
+        input[type="tel"],
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            box-shadow: 0 10px 20px -5px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px var(--primary-glow);
+            filter: brightness(1.1);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 1.8rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .toggle-form a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .toggle-form a:hover {
+            color: #818cf8;
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 20;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid transparent;
+        }
+
+        .back-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #otpSection {
+            background: rgba(16, 185, 129, 0.05);
+            padding: 1.5rem;
+            border-radius: 14px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <a href="index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to Home
+    </a>
+
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">🎓</div>
+            <h1>Student Voice Portal</h1>
+            <p>Secure Access for Complaints & Redressal</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('student')">Student Login</div>
+            <div class="tab" onclick="switchTab('authority')">Authority Login</div>
+        </div>
+
+        <form class="login-form active" id="student-form">
+            <div class="input-group">
+                <label>Mobile Number</label>
+                <input type="tel" id="stuPhone" placeholder="Enter 10-digit number" required pattern="[0-9]{10}"
+                    autocomplete="off">
+            </div>
+
+            <button type="button" class="btn-login" id="getOtpBtn" onclick="handleGetOTP()">Send Otp
+                Verification</button>
+
+            <div id="otpSection" style="display: none; margin-top: 1.5rem; animation: fadeIn 0.5s;">
+                <div class="input-group">
+                    <label style="text-align: center; color: #10b981;">Authentication Code</label>
+                    <input type="text" id="stuOtp" placeholder="• • • •" maxlength="4"
+                        style="letter-spacing: 12px; text-align: center; font-size: 1.2rem; font-weight: 700; background: rgba(0,0,0,0.2);">
+                </div>
+                <button type="submit" class="btn-login" style="background: #10b981; margin-top: 0;">Verify &
+                    Login</button>
+                <div style="text-align: center; margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem;">
+                    Demo Code: <strong
+                        style="color: white; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">1234</strong>
+                </div>
+            </div>
+        </form>
+
+        <form id="authorityForm" class="hidden">
+            <div class="input-group">
+                <label>Official Email</label>
+                <input type="email" class="form-input" placeholder="authority@university.edu" required>
+            </div>
+            <div class="input-group">
+                <label>Access Key</label>
+                <input type="password" class="form-input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-login" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Login
+                as Authority</button>
+        </form>
+
+        <div class="toggle-form">
+            First time? <a href="#">Register a Complaint</a> via Public Portal
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60 },
+                color: { value: '#3b82f6' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                line_linked: { enable: true, distance: 150, color: '#3b82f6', opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 2 }
+            }
+        });
+
+        function switchTab(type) {
+            const tabs = document.querySelectorAll('.tab');
+            const studentForm = document.getElementById('student-form');
+            const authorityForm = document.getElementById('authorityForm');
+
+            tabs.forEach(t => t.classList.remove('active'));
+
+            if (type === 'student') {
+                tabs[0].classList.add('active');
+                studentForm.classList.remove('hidden');
+                authorityForm.classList.add('hidden');
+            } else {
+                tabs[1].classList.add('active');
+                studentForm.classList.add('hidden');
+                authorityForm.classList.remove('hidden');
+            }
+        }
+
+        // OTP Simulation
+        let generatedOTP = null;
+
+        function handleGetOTP() {
+            const phone = document.getElementById('stuPhone').value;
+            if (phone.length !== 10 || isNaN(phone)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return;
+            }
+
+            // Simulate sending OTP
+            const btn = document.getElementById('getOtpBtn');
+            btn.innerHTML = "Sending...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                generatedOTP = '1234'; // Fixed for demo
+                alert(`DEMO SMS: Your OTP is ${generatedOTP}`);
+
+                document.getElementById('otpSection').style.display = 'block';
+                btn.style.display = 'none';
+            }, 1000);
+        }
+
+        // Handle Forms
+        document.getElementById('student-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const inputOtp = document.getElementById('stuOtp').value;
+
+            if (inputOtp === generatedOTP) {
+                // Generate or retrieve Unique ID based on phone
+                const phone = document.getElementById('stuPhone').value;
+                let userMap = JSON.parse(localStorage.getItem('student_users') || '{}');
+
+                if (!userMap[phone]) {
+                    // Generate new ID for new number
+                    const randomId = Math.floor(1000 + Math.random() * 9000);
+                    userMap[phone] = {
+                        id: `#STU-2025-${randomId}`,
+                        phone: phone,
+                        joined: new Date().toLocaleDateString()
+                    };
+                    localStorage.setItem('student_users', JSON.stringify(userMap));
+                }
+
+                // Set Current User
+                const currentUser = userMap[phone];
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                // Redirect
+                window.location.href = 'student_dashboard.html';
+            } else {
+                alert("Invalid OTP. Please try again.");
+            }
+        });
+
+        document.getElementById('authorityForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Simple redirect for authority (existing logic)
+            window.location.href = 'authority_dashboard.html';
+        });
+    </script>
+</body>
+
+</html>
